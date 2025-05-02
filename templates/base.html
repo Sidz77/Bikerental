@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Bike Rental</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+<header>
+    <div class="top-bar">
+        <div class="logo">
+            <img src="/static/images/logg2.png" alt="Online Bike Rental">
+        </div>
+        <div class="contact-info">
+            <span>📧 For Support Mail us: <a href="mailto:paragivpatil123@gmail.com">paragivpatil123@gmail.com</a></span>
+            <span>📞 Service Helpline Call Us: <a href="tel:+918600550814">+91-8600550814</a></span>
+        </div>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-google"></i></a>
+            <a href="{{ url_for('login') }}" class="btn btn-secondary ">Login</a>
+            <a href="{{ url_for('register') }}" class="btn btn-primary">Register</a>
+        </div>
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="#">HOME</a></li>
+            <li><a href="#">ABOUT US</a></li>
+            <li><a href="#">BIKE LISTING</a></li>
+            <li><a href="#">FAQS</a></li>
+            <li><a href="#">CONTACT US</a></li>
+            <li class="search-box">
+                <input type="text" placeholder="Search...">
+                <button><i class="fas fa-search"></i></button>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<section class="hero">
+    <img src="/static/images/front-image.jpg" alt="Front Bike Image">
+    <div class="hero-text">
+        <h1>FIND YOUR PERFECT BIKE</h1>
+        <p>We have more than a thousand bikes for you to choose from.</p>
+        </div>
+</section>
+
+<section class="bike-listing">
+    <h2><strong>Find the Best</strong> Bike For You</h2>
+    <p>
+        You will be able to fully enjoy your holiday and your ride! Any problems? Our passionate team will be happy to help you! No waste of time during your holidays to find a rental point on the spot! No language barrier, thanks to our multilingual team! At the same price, you would pay on the spot! We have the best bikes with the best deals.
+    </p>
+
+    <div class="new-bike">
+        <span>New Bike</span>
+    </div>
+
+    <div class="bike-cards">
+        <div class="bike-card">
+            <a href="{{ url_for('bookbike_dynamic', bike_type='bookbike1') }}">
+                <img src="/static/images/bike1.jpg" alt="Bajaj RS200">
+            </a>
+            <div class="bike-info">
+                <span>⛽ Petrol | 📅 2019 Model | 🚲 2 Seats</span>
+            </div>
+            <h3>Bajaj, RS300</h3>
+            <strong>$22/Day</strong>
+            <p>Slowly spreading its cards this year, the Ace of Bajaj Autos is still...</p>
+        </div>
+
+        <div class="bike-card">
+            <a href="{{ url_for('bookbike_dynamic', bike_type='bookbike2') }}">
+                <img src="/static/images/bike2.png" alt="Bajaj RS200">
+            </a>
+            <div class="bike-info">
+                <span>⛽ Petrol | 📅 2015 Model | 🚲 2 Seats</span>
+            </div>
+            <h3>Bajaj, RS200</h3>
+            <strong>$25/Day</strong>
+            <p>The Pulsar is by far the most successful brand Bajaj has managed...</p>
+        </div>
+
+        <div class="bike-card">
+            <a href="{{ url_for('bookbike_dynamic', bike_type='bookbike3') }}">
+                <img src="/static/images/bike3.jpg" alt="Bajaj RS200">
+            </a>
+            <div class="bike-info">
+                <span>⛽ Petrol | 📅 2021 Model | 🚲 2 Seats</span>
+            </div>
+            <h3>Bajaj, RS150</h3>
+            <strong>$17/Day</strong>
+            <p>The Pulsar is by far the most successful brand Bajaj has managed...</p>
+        </div>
+
+        <div class="bike-card">
+            <a href="{{ url_for('bookbike_dynamic', bike_type='bookbike4') }}">
+                <img src="/static/images/bike4.jpg" alt="Bajaj RS200">
+            </a>
+            <div class="bike-info">
+                <span>⛽ Petrol | 📅 2016 Model | 🚲 2 Seats</span>
+            </div>
+            <h3>Bajaj, RS180</h3>
+            <strong>$25/Day</strong>
+            <p>The Pulsar is by far the most successful brand Bajaj has managed...</p>
+        </div>
+
+        <div class="bike-card">
+            <a href="{{ url_for('bookbike_dynamic', bike_type='bookbike5') }}">
+                <img src="/static/images/bike5.png" alt="Bajaj RS200">
+            </a>
+            <div class="bike-info">
+                <span>⛽ Petrol | 📅 2018 Model | 🚲 2 Seats</span>
+            </div>
+            <h3>Bajaj, RS200</h3>
+            <strong>$19/Day</strong>
+            <p>The Pulsar is by far the most successful brand Bajaj has managed...</p>
+        </div>
+
+        <div class="bike-card">
+            <a href="{{ url_for('bookbike_dynamic', bike_type='bookbike6') }}">
+                <img src="/static/images/bike6.jpeg" alt="Honda CD 110">
+            </a>
+            <div class="bike-info">
+                <span>⛽ Petrol | 📅 2020 Model | 🚲 2 Seats</span>
+            </div>
+            <h3>Honda CD 110, RS180</h3>
+            <strong>$20/Day</strong>
+            <p>The Honda CD 110 is a reliable and fuel-efficient commuter bike, perfect for daily rides...</p>
+        </div>
+
+        <div class="bike-card">
+            <a href="{{ url_for('bookbike_dynamic', bike_type='bookbike7') }}">
+                <img src="/static/images/bike7.jpeg" alt="Honda Shine">
+            </a>
+            <div class="bike-info">
+                <span>⛽ Petrol | 📅 2019 Model | 🚲 2 Seats</span>
+            </div>
+            <h3>Honda Shine, RS150</h3>
+            <strong>$15/Day</strong>
+            <p>The Honda Shine is a stylish and efficient commuter bike, known for its smooth ride and durability...</p>
+        </div>
+
+        <div class="bike-card">
+            <a href="{{ url_for('bookbike_dynamic', bike_type='bookbikesty1') }}">
+                <img src="/static/images/scooty1.jpeg" alt="Honda Activa 6G">
+            </a>
+            <div class="bike-info">
+                <span>⛽ Petrol | 📅 2021 Model | 🚲 2 Seats</span>
+            </div>
+            <h3>Honda Activa 6G, RS150</h3>
+            <strong>$18/Day</strong>
+            <p>The Honda Activa 6G is a sleek and reliable scooter, known for its smooth performance, excellent mileage, and comfortable ride. Perfect for city commuting with superior durability and style.</p>
+        </div>
+
+        <div class="bike-card">
+            <a href="{{ url_for('bookbike_dynamic', bike_type='bookbikesty2') }}">
+                <img src="/static/images/scooty2.jpeg" alt="TVS Scooty Pep+">
+            </a>
+            <div class="bike-info">
+                <span>⛽ Petrol | 📅 2020 Model | 🚲 2 Seats</span>
+            </div>
+            <h3>TVS Scooty Pep+, RS150</h3>
+            <strong>$15/Day</strong>
+            <p>The TVS Scooty Pep+ is a lightweight and stylish scooter, perfect for city commuting. It offers great mileage, smooth handling, and a comfortable ride for daily use.</p>
+        </div>
+    </div>
+</section>
+
+<section class="customer-reviews">
+    <h2><strong>Our Satisfied</strong> Customer's Review</h2>
+    <div class="review-container">
+        {% if reviews %}
+            {% for review in reviews %}
+            <div class="review-card">
+                <div class="review-icon">
+                    <img src="/static/images/cat-profile.png" alt="User Icon">
+                </div>
+                <div class="review-content">
+                    <h3>{{ review.name }}</h3>
+                    <p>{{ review.comment }}</p>
+                    <strong>Rating: {{ review.rating }}/5</strong>
+                    <span>Reviewed on: {{ review.created_at }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No reviews available at the moment.</p>
+        {% endif %}
+    </div>
+</section>
+
+
+<!-- Review Form Section -->
+<section class="submit-review">
+    <h3>Submit Your Review</h3>
+    <a href="{{ url_for('add_review') }}" class="btn-primary">Submit Your Review</a>
+</section>
+
+<button id="scrollToTop">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<footer>
+    <p>© 2025 Bike Rental. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

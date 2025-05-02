@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Delete Bikes</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    h2 { color: #333; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; }
+    th { background: #f0f0f0; }
+    a { text-decoration: none; color: #007bff; font-weight: bold; }
+    a:hover { text-decoration: underline; }
+    .back { margin-top: 1rem; display: inline-block; }
+  </style>
+</head>
+<body>
+
+  <h2>Bike Inventory — Delete Bikes</h2>
+
+  {% if bikes %}
+    <table>
+      <thead>
+        <tr><th>Model</th><th>Total Units</th><th>Available Units</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        {% for bike in bikes %}
+        <tr>
+          <td>{{ bike.model }}</td>
+          <td>{{ bike.total_units }}</td>
+          <td>{{ bike.available_units }}</td>
+          <td><a href="{{ url_for('admin_delete_bike', bike_id=bike._id) }}">Delete</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No bikes to delete.</p>
+  {% endif %}
+
+  <a class="back" href="{{ url_for('admin_dashboard') }}">&larr; Back to Dashboard</a>
+</body>
+</html>

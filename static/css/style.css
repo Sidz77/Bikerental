@@ -1,0 +1,392 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* Top Bar */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: white;
+    border-bottom: 2px solid #ccc;
+}
+
+.logo img {
+    width: 150px;
+}
+
+.contact-info {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.contact-info span {
+    margin: 0 15px;
+    font-size: 14px;
+}
+
+.social-icons a {
+    margin: 0 5px;
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.btn-primary {
+    background-color: yellow;
+}
+
+.btn-secondary {
+    background-color: yellow;
+}
+
+.btn-cta {
+    background-color: #ff6b6b;
+    margin-top: 1rem;
+    display: inline-block;
+}
+
+/* Navigation */
+nav {
+    background: black;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.search-box button {
+    background: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    text-align: left;
+    color: white;
+}
+
+.hero img {
+    width: 100%;
+    height: auto;
+}
+
+.hero-text {
+    position: absolute;
+    top: 40%;
+    right: 10%;
+    transform: translateY(-50%);
+    max-width: 400px;
+}
+
+.hero-text h1 {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.hero-text p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.read-more {
+    background: red;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.read-more i {
+    margin-right: 5px;
+}
+
+/* Bike Listing Section */
+.bike-listing {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #f5f5f5;
+}
+
+.bike-listing h2 {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.bike-listing p {
+    font-size: 16px;
+    color: #555;
+    max-width: 800px;
+    margin: 10px auto;
+}
+
+.new-bike {
+    display: inline-block;
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 20px;
+    margin: 20px 0;
+}
+
+/* Bike Cards */
+.bike-cards {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    flex-wrap: wrap;
+}
+
+.bike-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 333px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    padding-bottom: 10px;
+}
+
+.bike-card img {
+    width: 100%;
+    height: auto;
+}
+
+.bike-info {
+    background: black;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.bike-card h3 {
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.bike-card strong {
+    padding: 0 10px;
+    display: block;
+    font-size: 16px;
+    color: #333;
+}
+
+.bike-card p {
+    padding: 0 10px;
+    color: #777;
+    font-size: 14px;
+}
+
+/* Scroll to Top Button */
+#scrollToTop {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: red;
+    color: rgb(109, 107, 107);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: none;
+}
+
+#scrollToTop:hover {
+    background: darkred;
+}
+
+.why-choose-us {
+    background-color: rgb(81, 77, 77);
+    display: flex;
+    justify-content: center;
+    align-items: right;
+    gap: 20px;
+    padding: 50px;
+}
+
+.stat {
+    background-color: red;
+    color: rgb(255, 255, 255);
+    border-radius: 50%;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 28px;
+    margin: 5px 0;
+}
+
+p {
+    font-size: 16px;
+    margin: 0;
+}
+
+.customer-reviews {
+    text-align: center;
+    padding: 50px 20px;
+    background: #000;
+    color: white;
+}
+
+.review-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.review-card {
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    max-width: 400px;
+}
+
+.review-icon img {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+
+.review-content h3 {
+    margin: 0;
+    font-weight: bold;
+}
+
+.review-content p {
+    margin: 5px 0 0;
+}
+
+/* General Styles */
+
+
+/* Testimonial Section */
+.testimonial-section {
+    background: url('/static/templates/images/profile.jpg') no-repeat center center/cover;
+   
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.testimonial-section h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.testimonial-section h2 span {
+    color: #ffcc00; /* Highlighted color */
+}
+
+/* Testimonial Container */
+.testimonial-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+/* Testimonial Box */
+.testimonial {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 30px;
+    width: 350px;
+    text-align: left;
+    position: relative;
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+/* Quote Icon */
+.testimonial::before {
+    content: "“";
+    font-size: 80px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: -10px;
+    left: 10px;
+}
+
+/* Icon Styling */
+
+.icon img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+/* Testimonial Content */
+.content h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.content p {
+    font-size: 0.95rem;
+    color: #ddd;
+}
+
+
+/* Footer */
+footer {
+    background: black;
+    color: white;
+    padding: 10px 0;
+    margin-top: 20px;
+}

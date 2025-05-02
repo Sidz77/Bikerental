@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    h2, h3 { color: #333; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+    th { background: #f0f0f0; }
+    button { color: #fff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
+    .approve-btn { background: #28a745; }
+    .reject-btn { background: #dc3545; }
+    .delete-btn { background: #6c757d; }
+    .actions button { margin-right: 5px; }
+    .top-links a { margin-right: 1rem; color: #007bff; text-decoration: none; }
+    .flash { padding: 10px; margin-bottom: 1rem; border-radius: 4px; }
+    .flash.success { background: #d4edda; color: #155724; }
+    .flash.error { background: #f8d7da; color: #721c24; }
+  </style>
+</head>
+<body>
+
+  <h2>Admin Dashboard</h2>
+  <div class="top-links">
+    <a href="{{ url_for('admin_add_bike') }}">Add Bike</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </div>
+
+  <div id="flash-container"></div>
+
+  <h3>Pending Bookings</h3>
+  <table id="bookings-table">
+    <thead>
+      <tr><th>User ID</th><th>Bike Type</th><th>From</th><th>To</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      {% for b in bookings %}
+      <tr data-id="{{ b['_id'] }}">
+        <td>{{ b['user_id'] }}</td>
+        <td>{{ b['bike_type'] }}</td>
+        <td>{{ b['from_datetime'] }}</td>
+        <td>{{ b['to_datetime'] }}</td>
+        <td class="actions">
+          <button class="approve-btn" data-action="approve">Approve</button>
+          <button class="reject-btn" data-action="reject">Reject</button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3>Bike Inventory</h3>
+  <table id="bikes-table">
+    <thead>
+      <tr><th>Model</th><th>Total Units</th><th>Available Units</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      {% for bike in bikes %}
+      <tr data-id="{{ bike['_id'] }}">
+        <td>{{ bike['model'] }}</td>
+        <td>{{ bike['total_units'] }}</td>
+        <td>{{ bike['available_units'] }}</td>
+        <td class="actions">
+          <button class="delete-btn" data-action="delete-bike">Delete</button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <script>
+    // Helper: show flash message
+    function showFlash(message, category) {
+      const div = document.createElement('div');
+      div.className = 'flash ' + category;
+      div.innerText = message;
+      document.getElementById('flash-container').appendChild(div);
+      setTimeout(() => div.remove(), 3000);
+    }
+
+    // Generic fetch handler
+    async function handleAction(url, row, successMsg) {
+      try {
+        const res = await fetch(url, { method: 'POST' });
+        if (res.ok) {
+          row.remove();
+          showFlash(successMsg, 'success');
+        } else throw new Error('Failed');
+      } catch (err) {
+        showFlash('Action failed', 'error');
+      }
+    }
+
+    // Booking actions
+    document.querySelectorAll('#bookings-table button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.action;
+        const row = btn.closest('tr');
+        const id = row.dataset.id;
+        if (action === 'approve') {
+          handleAction(`/admin/approve_booking/${id}`, row, 'Booking approved');
+        } else {
+          handleAction(`/admin/reject_booking/${id}`, row, 'Booking rejected');
+        }
+      });
+    });
+
+    // Bike delete
+    document.querySelectorAll('#bikes-table button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const row = btn.closest('tr');
+        const id = row.dataset.id;
+        handleAction(`/admin/delete_bike/${id}`, row, 'Bike deleted');
+      });
+    });
+
+    // Add bike link
+    document.getElementById('add-bike-link').addEventListener('click', () => {
+      window.location.href = '{{ url_for("admin_add_bike") }}';
+    });
+  </script>
+</body>
+</html>

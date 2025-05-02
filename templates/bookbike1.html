@@ -1,0 +1,293 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Bike Rental | Vehicle Details</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .vehicle-header {
+            background: #f8f8f8;
+            padding: 20px;
+        }
+
+        .vehicle-header h1 {
+            font-size: 32px;
+        }
+
+        .price {
+            color: red;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .main-image img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+
+        .booking-form {
+            background: #f2f2f2;
+            padding: 20px;
+            max-width: 400px;
+            border-radius: 10px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .booking-form input, 
+        .booking-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .booking-form button {
+            width: 100%;
+            padding: 10px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #listing_img_slider {
+            width: 100%;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slider-image {
+            width: 100%;
+            height: 400px;
+            flex-shrink: 0;
+        }
+
+        .slider-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .prev { left: 10px; }
+        .next { right: 10px; }
+
+        footer {
+            background: black;
+            color: white;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+
+        .flash-message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .flash-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .flash-error {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="vehicle-header">
+        <h1>Bajaj, RS300</h1>
+        <h2 class="price">$22 per Day</h2>
+    </div>
+
+    <div class="main-image">
+        <img src="/static/images/bike1.jpg" alt="Bajaj RS300">
+    </div>
+
+    <section class="listing-detail">
+        <div class="container">
+            <h2>Vehicle Overview</h2>
+            <p>This bike comes with a high-performance engine, superior mileage, and a stylish design.</p>
+            <ul style="list-style: none; padding: 0;">
+                <li>✔ ABS Braking System</li>
+                <li>✔ Fuel Type: Petrol</li>
+                <li>✔ Year: 2019</li>
+                <li>✔ Seats: 2</li>
+            </ul>
+
+            <!-- Flash Message Handling -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-message {% if messages[0][0] == 'error' %}flash-error{% else %}flash-success{% endif %}">
+                        {{ messages[0][1] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {% if session['user_id'] %}
+            <form method="POST" action="{{ url_for('bookbike_dynamic', bike_type='bookbike1') }}" class="booking-form">
+                <h3>Book Now</h3>
+            
+                <label>From Date & Time:</label>
+                <input type="date" id="fromdate" name="fromdate" required>
+                <input type="time" id="fromtime" name="fromtime" required>
+            
+                <label>To Date & Time:</label>
+                <input type="date" id="todate" name="todate" required>
+                <input type="time" id="totime" name="totime" required>
+            
+                <textarea name="message" placeholder="Message (optional)"></textarea>
+                <button type="submit">Book Now</button>
+            </form>
+            {% else %}
+            <div class="booking-form">
+                <h3>Please Log In</h3>
+                <p style="color: red;">You must be <a href="{{ url_for('login') }}">logged in</a> to book this bike.</p>
+            </div>
+            {% endif %}
+            
+        </div>
+    </section>
+
+    <div class="vehicle-header">
+        <h1>More Bikes</h1>
+    </div>
+
+    <section id="listing_img_slider" class="slider-container">
+        <div class="slider-nav prev" onclick="prevSlide()">&#10094;</div>
+        <div class="slider-wrapper">
+            <div class="slider-image">
+                <a href="/templates/bookbike2.html" target="_blank">
+                    <img src="/static/images/bike2.png" alt="Bajaj RS200">
+                </a>
+            </div>
+            <div class="slider-image">
+                <a href="/templates/bookbike3.html" target="_blank">
+                    <img src="/static/images/bike3.jpg" alt="Bajaj RS200">
+                </a>
+            </div>
+            <div class="slider-image">
+                <a href="/templates/bookbike4.html" target="_blank">
+                    <img src="/static/images/bike4.jpg" alt="Bajaj RS200">
+                </a>
+            </div>
+        </div>
+        <div class="slider-nav next" onclick="nextSlide()">&#10095;</div>
+    </section>
+
+    <script>
+        let index = 0;
+        const images = document.querySelectorAll("#listing_img_slider .slider-image");
+        const totalImages = images.length;
+
+        function updateSlide() {
+            document.querySelector(".slider-wrapper").style.transform = `translateX(-${index * 100}%)`;
+        }
+
+        function nextSlide() {
+            index = (index + 1) % totalImages;
+            updateSlide();
+        }
+
+        function prevSlide() {
+            index = (index - 1 + totalImages) % totalImages;
+            updateSlide();
+        }
+
+        setInterval(nextSlide, 3000);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const fromDate = document.getElementById('fromdate');
+            const fromTime = document.getElementById('fromtime');
+            const toDate = document.getElementById('todate');
+            const toTime = document.getElementById('totime');
+
+            const setMinDateToday = () => {
+                const now = new Date();
+                const today = now.toISOString().split("T")[0];
+                const currentTime = now.toTimeString().slice(0, 5);
+
+                fromDate.min = today;
+                toDate.min = today;
+
+                // Default values
+                fromDate.value = today;
+                fromTime.value = currentTime;
+            };
+
+            const validateTimes = () => {
+                const from = new Date(`${fromDate.value}T${fromTime.value}`);
+                const to = new Date(`${toDate.value}T${toTime.value}`);
+                const now = new Date();
+
+                // Disallow past "from" datetime
+                if (from < now) {
+                    alert("From time cannot be in the past.");
+                    fromDate.value = now.toISOString().split("T")[0];
+                    fromTime.value = now.toTimeString().slice(0, 5);
+                }
+
+                // Disallow "to" before "from"
+                if (to < from) {
+                    alert("To time cannot be earlier than From time.");
+                    toDate.value = fromDate.value;
+                    toTime.value = fromTime.value;
+                }
+            };
+
+            fromDate.addEventListener('change', validateTimes);
+            fromTime.addEventListener('change', validateTimes);
+            toDate.addEventListener('change', validateTimes);
+            toTime.addEventListener('change', validateTimes);
+
+            setMinDateToday();
+        });
+    </script>
+
+    <footer>
+        <p>© 2025 Bike Rental. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

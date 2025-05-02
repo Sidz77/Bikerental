@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Bikes</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">Bike Rental</div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/bikes">Bikes</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/register">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="bikes">
+            <h1>Available Bikes for Rent</h1>
+            <div class="bike-list" id="bike-list">
+               
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Bike Rental. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        
+        fetch('/api/bikes')
+            .then(response => response.json())
+            .then(data => {
+                const bikeList = document.getElementById('bike-list');
+                data.forEach(bike => {
+                    const bikeItem = document.createElement('div');
+                    bikeItem.classList.add('bike-item');
+                    bikeItem.innerHTML = `
+                        <h3>${bike.name}</h3>
+                        <p>Price: $${bike.price}/day</p>
+                        <button onclick="rentBike('${bike._id}')">Rent Now</button>
+                    `;
+                    bikeList.appendChild(bikeItem);
+                });
+            });
+
+        function rentBike(bikeId) {
+            alert('Bike ' + bikeId + ' rented!');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reject Bookings</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    h2 { color: #333; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; }
+    th { background: #f0f0f0; }
+    a { text-decoration: none; color: #dc3545; font-weight: bold; }
+    a:hover { text-decoration: underline; }
+    .back { margin-top: 1rem; display: inline-block; }
+  </style>
+</head>
+<body>
+
+  <h2>Pending Bookings to Reject</h2>
+
+  {% if bookings %}
+    <table>
+      <thead>
+        <tr><th>User ID</th><th>Bike Type</th><th>From</th><th>To</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        {% for b in bookings %}
+        <tr>
+          <td>{{ b.user_id }}</td>
+          <td>{{ b.bike_type }}</td>
+          <td>{{ b.from_datetime }}</td>
+          <td>{{ b.to_datetime }}</td>
+          <td><a href="{{ url_for('reject_booking', booking_id=b._id) }}">Reject</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No pending bookings.</p>
+  {% endif %}
+
+  <a class="back" href="{{ url_for('admin_dashboard') }}">&larr; Back to Dashboard</a>
+</body>
+</html>

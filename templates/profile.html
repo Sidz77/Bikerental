@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile</title>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+  <style>
+    body {
+      background: #f2f5f7;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .profile-container {
+      max-width: 700px;
+      margin: 3rem auto;
+      background: #fff;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .profile-container h2 {
+      margin-bottom: 1rem;
+      color: #333;
+      text-align: center;
+    }
+    .profile-picture {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 1rem;
+      border-radius: 50%;
+      background-image: url('/static/images/profile-placeholder.png'); /* Add this image */
+      background-size: cover;
+      background-position: center;
+    }
+    .profile-field {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      color: #444;
+    }
+    .profile-field label {
+      font-weight: bold;
+      display: inline-block;
+      width: 120px;
+    }
+    .booking-details {
+      margin-top: 2rem;
+    }
+    .booking-details h3 {
+      color: #2c3e50;
+    }
+    .booking-card {
+      background: #ecf0f1;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+    }
+    .booking-card h4 {
+      margin-top: 0;
+      color: #2980b9;
+    }
+    .booking-card p {
+      margin: 0.5rem 0;
+    }
+    .status-approved { color: green; font-weight: bold; }
+    .status-rejected { color: red; font-weight: bold; }
+    .status-pending { color: orange; font-weight: bold; }
+    a.back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      color: #3498db;
+      text-decoration: none;
+    }
+    a.back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <h2>👤 My Profile</h2>
+    <div class="profile-picture"></div>
+
+    <!-- User Info -->
+    <div class="profile-field"><label>👨 Full Name:</label> {{ user.name }}</div>
+    <div class="profile-field"><label>📧 Email:</label> {{ user.email }}</div>
+    <div class="profile-field"><label>📞 Phone:</label> {{ user.country_code }} {{ user.phone }}</div>
+
+    <!-- Booking Details -->
+    <div class="booking-details">
+      <h3>📅 Your Booking Details</h3>
+
+      {% if bookings and bookings|length > 0 %}
+        {% for booking in bookings %}
+          <div class="booking-card">
+            <h4>🚲 Bike Type: {{ booking.bike_type }}</h4>
+            <p><strong>📆 From:</strong> {{ booking.from_datetime.strftime('%d %b %Y, %I:%M %p') }}</p>
+            <p><strong>📆 To:</strong> {{ booking.to_datetime.strftime('%d %b %Y, %I:%M %p') }}</p>
+            <p><strong>💬 Message:</strong> {{ booking.message if booking.message else 'N/A' }}</p>
+            <p><strong>🔖 Status:</strong>
+              {% if booking.status == 'Approved' %}
+                <span class="status-approved">✅ Approved</span>
+              {% elif booking.status == 'Rejected' %}
+                <span class="status-rejected">❌ Rejected</span>
+              {% else %}
+                <span class="status-pending">⏳ Pending</span>
+              {% endif %}
+            </p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>❗ You have no bookings yet.</p>
+      {% endif %}
+    </div>
+
+    <a class="back-link" href="{{ url_for('index') }}">← Back to Home</a>
+  </div>
+</body>
+</html>
