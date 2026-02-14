@@ -6,11 +6,16 @@ from pymongo import MongoClient
 import datetime
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"
+app.secret_key = os.environ.get("SECRET_KEY")
+
 
 def get_db_connection():
-    client = MongoClient(os.environ.get("MONGO_URI"))
-    return client["bike_rental"]
+    uri = os.environ.get("MONGO_URI")
+    if not uri:
+        raise Exception("MONGO_URI not set")
+    client = MongoClient(uri)
+    return client["bikerental"]
+
 
 ADMIN_EMAIL = "bike123@gmail.com"
 ADMIN_PASSWORD = "bike123"
