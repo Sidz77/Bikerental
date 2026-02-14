@@ -179,5 +179,10 @@ def logout():
     session.clear()
     return redirect(url_for('base'))
 
+@app.route("/health")
+def health():
+    return "Backend is alive"
+
+
 if __name__ == '__main__':
     app.run(debug=True)
