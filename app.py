@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.secret_key = "your_secret_key"
 
 def get_db_connection():
-    client = MongoClient("mongodb://127.0.0.1:27017/")
+    client = MongoClient(os.environ.get("MONGO_URI"))
     return client["bike_rental"]
 
 ADMIN_EMAIL = "bike123@gmail.com"
