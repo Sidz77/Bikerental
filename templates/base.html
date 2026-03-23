@@ -15,8 +15,7 @@
             <img src="/static/images/logg2.png" alt="Online Bike Rental">
         </div>
         <div class="contact-info">
-            <span>📧 For Support Mail us: <a href="mailto:sudarshanbhosale7777@gmail.com">sudarshanbhosale7777@gmail.com</a></span>
-            <span>📞 Service Helpline Call Us: <a href="tel:+919881087195">+919881087195</a></span>
+            <!-- Contact info moved to Contact Us section -->
         </div>
         <div class="social-icons">
             <a href="https://www.facebook.com/share/18ZJ3LQfbh/"><i class="fab fa-facebook"></i></a>
@@ -34,7 +33,7 @@
             <li><a href="#">ABOUT US</a></li>
             <li><a href="#">BIKE LISTING</a></li>
             <li><a href="#">FAQS</a></li>
-            <li><a href="#">CONTACT US</a></li>
+            <li><a href="#contact-us">CONTACT US</a></li>
             <li class="search-box">
                 <input type="text" placeholder="Search...">
                 <button><i class="fas fa-search"></i></button>
@@ -202,12 +201,50 @@
     <a href="{{ url_for('add_review') }}" class="btn-primary">Submit Your Review</a>
 </section>
 
+<section id="contact-us" class="contact-section">
+    <div class="contact-container">
+        <div class="contact-info-panel">
+            <h2>Contact Us</h2>
+            <p>📧 Support: <br><a href="mailto:sudarshanbhosale7777@gmail.com">sudarshanbhosale7777@gmail.com</a></p>
+            <p>📞 Helpline: <br><a href="tel:+919881087195">+919881087195</a></p>
+        </div>
+        <div class="contact-form-panel">
+            <h2>Send Us a Message</h2>
+            <form action="#" method="POST">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" placeholder="Enter your phone" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" placeholder="What's this about?" required>
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea placeholder="Tell us more..." rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+</section>
+
 <button id="scrollToTop">
     <i class="fas fa-arrow-up"></i>
 </button>
 
 <footer>
-    <p>© 2025 Bike Rental. All rights reserved.</p>
+    <p>© 2025 Bike Rental. All rights reserved. | <a href="{{ url_for('terms') }}" style="color: var(--primary-color); text-decoration: none;">Terms & Conditions</a></p>
 </footer>
 
 </body>

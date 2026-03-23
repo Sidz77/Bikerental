@@ -3,123 +3,272 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
+  <title>Admin Dashboard | Premium Control Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
-    body { font-family: Arial, sans-serif; margin: 2rem; }
-    h2, h3 { color: #333; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; }
-    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
-    th { background: #f0f0f0; }
-    button { color: #fff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
-    .approve-btn { background: #28a745; }
-    .reject-btn { background: #dc3545; }
-    .delete-btn { background: #6c757d; }
-    .actions button { margin-right: 5px; }
-    .top-links a { margin-right: 1rem; color: #007bff; text-decoration: none; }
-    .flash { padding: 10px; margin-bottom: 1rem; border-radius: 4px; }
-    .flash.success { background: #d4edda; color: #155724; }
-    .flash.error { background: #f8d7da; color: #721c24; }
+    :root {
+      --bg-dark: #0b0c10;
+      --card-bg: #1f2833;
+      --primary: #66fcf1;
+      --secondary: #45a29e;
+      --text-main: #c5c6c7;
+      --text-white: #ffffff;
+      --success: #28a745;
+      --danger: #dc3545;
+      --border: rgba(255,255,255,0.05);
+    }
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      margin: 0; 
+      background: var(--bg-dark);
+      color: var(--text-main);
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 260px;
+      background: #07080a;
+      padding: 30px 20px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar h2 {
+      color: var(--primary);
+      margin-top: 0;
+      margin-bottom: 40px;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sidebar a {
+      color: var(--text-main);
+      text-decoration: none;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .sidebar a:hover, .sidebar a.active {
+      background: rgba(102, 252, 241, 0.1);
+      color: var(--primary);
+    }
+    .sidebar .logout {
+      margin-top: auto;
+      color: var(--danger);
+    }
+    .sidebar .logout:hover {
+      background: rgba(220, 53, 69, 0.1);
+      color: var(--danger);
+    }
+    
+    .main-content {
+      flex: 1;
+      padding: 40px 50px;
+      overflow-y: auto;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+    .header h1 {
+      color: var(--text-white);
+      margin: 0;
+      font-size: 2.2rem;
+    }
+    
+    .flash-container { margin-bottom: 20px; }
+    .flash { 
+      padding: 15px 20px; 
+      border-radius: 8px; 
+      margin-bottom: 10px; 
+      font-weight: 600;
+      animation: slideDown 0.3s ease;
+    }
+    @keyframes slideDown { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; }}
+    .flash.success { background: rgba(40, 167, 69, 0.2); color: var(--success); border: 1px solid var(--success); }
+    .flash.error { background: rgba(220, 53, 69, 0.2); color: var(--danger); border: 1px solid var(--danger); }
+    
+    .section-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 40px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .section-card h3 {
+      color: var(--text-white);
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 15px;
+    }
+    
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+    }
+    th, td { 
+      padding: 15px; 
+      text-align: left; 
+      border-bottom: 1px solid var(--border);
+    }
+    th { 
+      color: var(--secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+    tr { transition: background 0.3s ease; }
+    tr:hover { background: rgba(255,255,255,0.02); }
+    
+    button, .btn-action, .add-bike-btn { 
+      border: none; 
+      padding: 8px 15px; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+    }
+    .approve-btn { background: rgba(40, 167, 69, 0.2); color: var(--success); border: 1px solid var(--success); }
+    .approve-btn:hover { background: var(--success); color: #fff; }
+    .reject-btn { background: rgba(220, 53, 69, 0.2); color: var(--danger); border: 1px solid var(--danger); }
+    .reject-btn:hover { background: var(--danger); color: #fff; }
+    .delete-btn { background: rgba(255, 255, 255, 0.1); color: var(--text-main); border: 1px solid var(--text-main); }
+    .delete-btn:hover { background: var(--text-main); color: #000; }
+    
+    .actions { display: flex; gap: 10px; }
   </style>
 </head>
 <body>
 
-  <h2>Admin Dashboard</h2>
-  <div class="top-links">
-    <a href="{{ url_for('admin_add_bike') }}">Add Bike</a>
-    <a href="{{ url_for('logout') }}">Logout</a>
+  <div class="sidebar">
+    <div style="text-align:center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 15px;">
+        <img src="/static/images/logg2.png" alt="Logo" style="width: 160px; filter: drop-shadow(0 0 5px rgba(102, 252, 241, 0.5));">
+    </div>
+    <a href="#" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
+    <a href="{{ url_for('admin_add_bike') }}"><i class="fas fa-plus-circle"></i> Add Bike</a>
+    <a href="{{ url_for('base') }}"><i class="fas fa-globe"></i> View Site</a>
+    <a href="{{ url_for('logout') }}" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
   </div>
 
-  <div id="flash-container"></div>
+  <div class="main-content">
+    <div class="header">
+      <h1>Overview Dashboard</h1>
+    </div>
 
-  <h3>Pending Bookings</h3>
-  <table id="bookings-table">
-    <thead>
-      <tr><th>User ID</th><th>Bike Type</th><th>From</th><th>To</th><th>Actions</th></tr>
-    </thead>
-    <tbody>
-      {% for b in bookings %}
-      <tr data-id="{{ b['_id'] }}">
-        <td>{{ b['user_id'] }}</td>
-        <td>{{ b['bike_type'] }}</td>
-        <td>{{ b['from_datetime'] }}</td>
-        <td>{{ b['to_datetime'] }}</td>
-        <td class="actions">
-          <button class="approve-btn" data-action="approve">Approve</button>
-          <button class="reject-btn" data-action="reject">Reject</button>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    <div id="flash-container" class="flash-container"></div>
 
-  <h3>Bike Inventory</h3>
-  <table id="bikes-table">
-    <thead>
-      <tr><th>Model</th><th>Total Units</th><th>Available Units</th><th>Actions</th></tr>
-    </thead>
-    <tbody>
-      {% for bike in bikes %}
-      <tr data-id="{{ bike['_id'] }}">
-        <td>{{ bike['model'] }}</td>
-        <td>{{ bike['total_units'] }}</td>
-        <td>{{ bike['available_units'] }}</td>
-        <td class="actions">
-          <button class="delete-btn" data-action="delete-bike">Delete</button>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    <div class="section-card">
+      <h3><i class="fas fa-calendar-alt"></i> Pending Bookings</h3>
+      <table id="bookings-table">
+        <thead>
+          <tr><th>User ID</th><th>Bike Type</th><th>From</th><th>To</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          {% for b in bookings %}
+          <tr data-id="{{ b['_id'] }}">
+            <td style="font-size:0.8rem; color:#888;">{{ b['user_id'] }}</td>
+            <td><strong>{{ b['bike_type'] }}</strong></td>
+            <td>{{ b['from_datetime'] }}</td>
+            <td>{{ b['to_datetime'] }}</td>
+            <td class="actions">
+              <button class="approve-btn" data-action="approve"><i class="fas fa-check"></i> Approve</button>
+              <button class="reject-btn" data-action="reject"><i class="fas fa-times"></i> Reject</button>
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="5" style="text-align: center; color: #888; padding: 30px;">No pending bookings at the moment.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-card">
+      <h3><i class="fas fa-biking"></i> Bike Inventory</h3>
+      <table id="bikes-table">
+        <thead>
+          <tr><th>Model / Bike Type</th><th>Total Units</th><th>Available Units</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          {% for bike in bikes %}
+          <tr data-id="{{ bike['_id'] }}">
+            <td><strong>{{ bike['model'] }}</strong></td>
+            <td>{{ bike['total_units'] }}</td>
+            <td><span style="color:var(--primary); font-weight:bold;">{{ bike['available_units'] }}</span></td>
+            <td class="actions">
+              <button class="delete-btn" data-action="delete-bike"><i class="fas fa-trash-alt"></i> Delete</button>
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="4" style="text-align: center; color: #888; padding: 30px;">No bikes in inventory.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 
   <script>
-    // Helper: show flash message
     function showFlash(message, category) {
       const div = document.createElement('div');
       div.className = 'flash ' + category;
       div.innerText = message;
       document.getElementById('flash-container').appendChild(div);
-      setTimeout(() => div.remove(), 3000);
+      setTimeout(() => div.remove(), 4000);
     }
 
-    // Generic fetch handler
     async function handleAction(url, row, successMsg) {
       try {
         const res = await fetch(url, { method: 'POST' });
         if (res.ok) {
-          row.remove();
+          row.style.opacity = '0';
+          setTimeout(() => row.remove(), 300);
           showFlash(successMsg, 'success');
         } else throw new Error('Failed');
       } catch (err) {
-        showFlash('Action failed', 'error');
+        showFlash('Action failed. Please try again.', 'error');
       }
     }
 
-    // Booking actions
     document.querySelectorAll('#bookings-table button').forEach(btn => {
       btn.addEventListener('click', () => {
         const action = btn.dataset.action;
         const row = btn.closest('tr');
         const id = row.dataset.id;
         if (action === 'approve') {
-          handleAction(`/admin/approve_booking/${id}`, row, 'Booking approved');
+          handleAction(`/admin/approve_booking/${id}`, row, 'Booking approved successfully!');
         } else {
-          handleAction(`/admin/reject_booking/${id}`, row, 'Booking rejected');
+          handleAction(`/admin/reject_booking/${id}`, row, 'Booking rejected.');
         }
       });
     });
 
-    // Bike delete
     document.querySelectorAll('#bikes-table button').forEach(btn => {
       btn.addEventListener('click', () => {
         const row = btn.closest('tr');
         const id = row.dataset.id;
-        handleAction(`/admin/delete_bike/${id}`, row, 'Bike deleted');
+        if (confirm('Are you sure you want to delete this bike?')) {
+          handleAction(`/admin/delete_bike/${id}`, row, 'Bike deleted from inventory.');
+        }
       });
-    });
-
-    // Add bike link
-    document.getElementById('add-bike-link').addEventListener('click', () => {
-      window.location.href = '{{ url_for("admin_add_bike") }}';
     });
   </script>
 </body>

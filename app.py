@@ -6,19 +6,17 @@ from pymongo import MongoClient
 import datetime
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY")
+app.secret_key = os.environ.get("SECRET_KEY", "fallback_dev_secret")
 
 
 def get_db_connection():
-    uri = os.environ.get("MONGO_URI")
-    if not uri:
-        raise Exception("MONGO_URI not set")
+    uri = os.environ.get("MONGO_URI", "mongodb://localhost:27017/")
     client = MongoClient(uri)
     return client["bikerental"]
 
 
-ADMIN_EMAIL = "bike123@gmail.com"
-ADMIN_PASSWORD = "bike123"
+ADMIN_EMAIL = "sudarshanbhosale7777@gmail.com"
+ADMIN_PASSWORD = "SidBike#77"
 
 @app.route('/')
 def base():
@@ -182,6 +180,10 @@ def logout():
 @app.route("/health")
 def health():
     return "Backend is alive"
+
+@app.route("/terms")
+def terms():
+    return render_template('terms.html')
 
 
 if __name__ == '__main__':
