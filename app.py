@@ -17,7 +17,7 @@ app.secret_key = os.environ.get("SECRET_KEY", "fallback_dev_secret")
 
 
 def get_db_connection():
-    uri = os.environ.get("MONGO_URI", "mongodb://127.0.0.1:27017/")
+    uri = os.environ.get("MONGO_URI", "mongodb+srv://siduser:SidDB77@cluster0.imfvfas.mongodb.net/?appName=Cluster0")
     client = MongoClient(uri)
     return client["bikerental"]
 
