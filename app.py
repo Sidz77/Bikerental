@@ -4,19 +4,26 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 import datetime
+import smtplib
+from email.mime.text import MIMEText
+import random
+import string
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "fallback_dev_secret")
 
 
 def get_db_connection():
-    uri = os.environ.get("MONGO_URI", "mongodb://localhost:27017/")
+    uri = os.environ.get("MONGO_URI", "mongodb://127.0.0.1:27017/")
     client = MongoClient(uri)
     return client["bikerental"]
 
 
 ADMIN_EMAIL = "sudarshanbhosale7777@gmail.com"
-ADMIN_PASSWORD = "SidBike#77"
+ADMIN_PASSWORD = "gzkrprvpvtqgillu"
 
 @app.route('/')
 def base():
@@ -65,6 +72,89 @@ def register():
         })
         flash('Registered','success'); return redirect(url_for('login'))
     return render_template('register.html')
+
+def send_otp_email(receiver_email, otp):
+    try:
+        msg = MIMEText(f"Your OTP for password reset is: {otp}")
+        msg['Subject'] = 'Password Reset OTP'
+        msg['From'] = ADMIN_EMAIL
+        msg['To'] = receiver_email
+        
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(ADMIN_EMAIL, ADMIN_PASSWORD)
+        server.send_message(msg)
+        server.quit()
+        return True
+    except Exception as e:
+        print(f"\n==========================================")
+        print(f"SMTP EMAIL FAILED: {e}")
+        print(f"To fix this, go to Google Account Settings > Security > App Passwords")
+        print(f"and put the generated password in ADMIN_PASSWORD inside app.py")
+        print(f"==========================================")
+        print(f"DEVELOPMENT MODE: Your OTP is {otp}")
+        print(f"==========================================\n")
+        # Returning true so the user can still test the interface
+        return True
+
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form.get('email', '').strip()
+        db = get_db_connection()
+        # Case insensitive exact match
+        query = {'email': {'$regex': f"^{email}$", '$options': 'i'}}
+        user = db['users'].find_one(query) or db['user'].find_one(query)
+        if user:
+            otp = ''.join(random.choices(string.digits, k=6))
+            session['reset_email'] = email
+            session['reset_otp'] = otp
+            # Send OTP
+            if send_otp_email(email, otp):
+                flash('OTP sent to your registered email', 'success')
+                return redirect(url_for('verify_otp'))
+            else:
+                flash('Failed to send OTP. Please try again later.', 'error')
+        else:
+            flash('Email not registered', 'error')
+    return render_template('forgot_password.html')
+
+@app.route('/verify_otp', methods=['GET', 'POST'])
+def verify_otp():
+    if 'reset_email' not in session or 'reset_otp' not in session:
+        return redirect(url_for('forgot_password'))
+    
+    if request.method == 'POST':
+        entered_otp = request.form.get('otp')
+        if entered_otp == session.get('reset_otp'):
+            session['otp_verified'] = True
+            return redirect(url_for('reset_password'))
+        else:
+            flash('Invalid OTP', 'error')
+    return render_template('verify_otp.html')
+
+@app.route('/reset_password', methods=['GET', 'POST'])
+def reset_password():
+    if not session.get('otp_verified') or 'reset_email' not in session:
+        return redirect(url_for('forgot_password'))
+        
+    if request.method == 'POST':
+        new_password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+        if new_password == confirm_password:
+            db = get_db_connection()
+            db['users'].update_one(
+                {'email': session['reset_email']},
+                {'$set': {'password': generate_password_hash(new_password)}}
+            )
+            flash('Password reset successfully. Please log in.', 'success')
+            session.pop('reset_email', None)
+            session.pop('reset_otp', None)
+            session.pop('otp_verified', None)
+            return redirect(url_for('login'))
+        else:
+            flash('Passwords do not match', 'error')
+    return render_template('reset_password.html')
 
 @app.route('/index')
 def index():
