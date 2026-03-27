@@ -52,9 +52,6 @@ def base():
     except Exception as e:
         return "ERROR: " + str(e)
 
-@app.route("/health")
-def health():
-    return "Backend is alive"
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -292,5 +289,5 @@ def terms():
     return render_template('terms.html')
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+app = app
+
