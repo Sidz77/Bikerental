@@ -30,18 +30,31 @@ ADMIN_PASSWORD = "gzkrprvpvtqgillu"
 
 @app.route('/')
 def base():
-    db = get_db_connection()
-    raw = db['reviews'].find().sort('created_at', -1)
-    reviews = []
-    for r in raw:
-        u = db['users'].find_one({'_id': ObjectId(r['user_id'])})
-        reviews.append({
-            'name': u['name'] if u else 'Anonymous',
-            'rating': r['rating'],
-            'comment': r['comment'],
-            'created_at': r['created_at'].strftime("%Y-%m-%d %H:%M")
-        })
-    return render_template('base.html', reviews=reviews)
+    try:
+        db = get_db_connection()
+        if db is None:
+            return "Database not connected"
+
+        raw = db['reviews'].find().sort('created_at', -1)
+        reviews = []
+
+        for r in raw:
+            u = db['users'].find_one({'_id': ObjectId(r['user_id'])})
+            reviews.append({
+                'name': u['name'] if u else 'Anonymous',
+                'rating': r.get('rating'),
+                'comment': r.get('comment'),
+                'created_at': str(r.get('created_at'))
+            })
+
+        return render_template('base.html', reviews=reviews)
+
+    except Exception as e:
+        return "ERROR: " + str(e)
+
+@app.route("/health")
+def health():
+    return "Backend is alive"
 
 @app.route('/login', methods=['GET','POST'])
 def login():
