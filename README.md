@@ -16,7 +16,7 @@
 
 ## 🌐 Live Website
 
-👉 https://bikerental-one.vercel.app
+👉 https://sidz-bikerental.vercel.app
 
 ---
 
